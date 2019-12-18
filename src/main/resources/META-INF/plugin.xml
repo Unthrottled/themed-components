@@ -17,8 +17,18 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <applicationConfigurable id="a336bd8d-393c-4e50-8633-243969706439"
+                                 instance="io.acari.themed.components.settings.ThemeSettings"
+                                 groupId="appearance"/>
+        <applicationService serviceImplementation="io.acari.themed.components.settings.Configurations"/>
     </extensions>
+
+    <application-components>
+        <component>
+            <implementation-class>io.acari.themed.components.ThemedComponents</implementation-class>
+        </component>
+    </application-components>
+
 
     <actions>
         <!-- Add your actions here -->
