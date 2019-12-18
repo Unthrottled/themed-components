@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>io.acari.themed-components</id>
+    <name>Themed Components</name>
+    <version>@version@</version>
+    <vendor email="alexsimons9999@gmail.com" url="https://github.com/cyclic-reference">cyclic-reference</vendor>
+
+    <description><![CDATA[
+        <h2>Themed Components</h2>
+        <br/>
+        <p>
+            Stuff to put in Later
+        </p>
+        <br/>
+        <div align="center"><img src="https://raw.githubusercontent.com/cyclic-reference/jetbrains-theme/master/assets/logo.png" alt="Doki Theme"/></div>
+        ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
