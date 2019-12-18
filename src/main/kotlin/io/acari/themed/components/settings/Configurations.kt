@@ -17,6 +17,7 @@ class Configurations : PersistentStateComponent<Configurations>, Cloneable {
     }
 
     var isThemedTitleBar: Boolean = true
+    var version: String = "0.0.0"
 
 
     override fun getState(): Configurations? =
