@@ -32,5 +32,9 @@
 
     <actions>
         <!-- Add your actions here -->
+        <action id="io.acari.themed.components.actions.ThemedTitleBarAction"
+                class="io.acari.themed.components.actions.ThemedTitleBarAction" text="Themed Title Bar"
+                icon="/icons/themedTitleBar.svg"
+                description="Makes the MacOS title bar the same color as your selected theme."/>
     </actions>
 </idea-plugin>
