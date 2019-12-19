@@ -1,4 +1,5 @@
-Themed Components
+# Themed Components
+
 ---
 
 A various collection of configurable UI components that give your JetBrains IDE that little extra something.
