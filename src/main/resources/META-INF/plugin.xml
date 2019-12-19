@@ -11,7 +11,7 @@
             Stuff to put in Later
         </p>
         <br/>
-        <div align="center"><img src="https://raw.githubusercontent.com/cyclic-reference/jetbrains-theme/master/assets/logo.png" alt="Doki Theme"/></div>
+        <div align="center"><img src="https://raw.githubusercontent.com/cyclic-reference/themed-components/master/assets/pluginLogo.png" alt="Themed Components"/></div>
         ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
