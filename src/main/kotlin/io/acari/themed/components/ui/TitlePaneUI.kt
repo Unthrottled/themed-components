@@ -5,6 +5,7 @@ import com.intellij.ide.ui.laf.UIThemeBasedLookAndFeelInfo
 import com.intellij.ide.ui.laf.darcula.ui.DarculaRootPaneUI
 import com.intellij.openapi.util.SystemInfo.*
 import com.intellij.openapi.wm.ex.IdeFrameEx
+import com.intellij.openapi.wm.impl.IdeFrameImpl
 import com.intellij.ui.JBColor.GRAY
 import com.intellij.ui.JBColor.namedColor
 import com.intellij.util.ui.GraphicsUtil
@@ -198,10 +199,9 @@ class TitlePaneUI : DarculaRootPaneUI() {
 }
 
 private fun isInFullScreen(window: Window?): Boolean {
-  val ultimateParent = UIUtil.findUltimateParent(window)
-  if (ultimateParent == window && ultimateParent is IdeFrameEx) {
-    val ultimateParentWindowForEvent = ultimateParent as IdeFrameEx
-    return ultimateParentWindowForEvent.isInFullScreen
+  return when(val parent = UIUtil.findUltimateParent(window)){
+    is IdeFrameEx -> parent.isInFullScreen
+    is IdeFrameImpl -> parent.isInFullScreen
+    else -> false
   }
-  return false
 }
