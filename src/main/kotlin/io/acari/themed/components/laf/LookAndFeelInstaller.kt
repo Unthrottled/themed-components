@@ -3,7 +3,6 @@ package io.acari.themed.components.laf
 import io.acari.themed.components.ui.TitlePaneUI
 import javax.swing.UIManager
 
-
 object LookAndFeelInstaller {
     init {
         installAllUIComponents()
