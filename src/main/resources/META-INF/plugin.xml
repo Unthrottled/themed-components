@@ -5,13 +5,9 @@
     <vendor email="alexsimons9999@gmail.com" url="https://github.com/cyclic-reference">cyclic-reference</vendor>
 
     <description><![CDATA[
-        <h2>Themed Components</h2>
-        <br/>
         <p>
-            Stuff to put in Later
+            A various collection of configurable UI components that give your IDE that little extra something.
         </p>
-        <br/>
-        <div align="center"><img src="https://raw.githubusercontent.com/cyclic-reference/themed-components/master/assets/pluginLogo.png" alt="Themed Components"/></div>
         ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
@@ -31,7 +27,6 @@
 
 
     <actions>
-        <!-- Add your actions here -->
         <action id="io.acari.themed.components.actions.ThemedTitleBarAction"
                 class="io.acari.themed.components.actions.ThemedTitleBarAction" text="Themed Title Bar"
                 icon="/icons/themedTitleBar.svg"
