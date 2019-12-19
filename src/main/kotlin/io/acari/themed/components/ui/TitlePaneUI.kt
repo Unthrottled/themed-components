@@ -10,6 +10,7 @@ import com.intellij.ui.JBColor.namedColor
 import com.intellij.util.ui.GraphicsUtil
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.JBUI.insets
+import com.intellij.util.ui.StartupUiUtil
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.UIUtil.getWindow
 import io.acari.themed.components.settings.Configurations
@@ -65,10 +66,11 @@ class TitlePaneUI : DarculaRootPaneUI() {
     LafManager.getInstance().currentLookAndFeel
       .toOptional()
       .filter { isMac || isLinux }
-      .filter { it is UIThemeBasedLookAndFeelInfo }
-      .map { it as UIThemeBasedLookAndFeelInfo }
       .ifPresent {
-        c?.putClientProperty(WINDOW_DARK_APPEARANCE, it.theme.isDark)
+        val isDark =
+          if(it is UIThemeBasedLookAndFeelInfo) it.theme.isDark
+          else StartupUiUtil.isUnderDarcula()
+        c?.putClientProperty(WINDOW_DARK_APPEARANCE, isDark)
         val rootPane = c as? JRootPane
         attemptTransparentTitle(c) { shouldBeTransparent ->
           c?.putClientProperty(TRANSPARENT_TITLE_BAR_APPEARANCE, shouldBeTransparent)
