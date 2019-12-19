@@ -11,15 +11,11 @@ import io.acari.themed.components.laf.LookAndFeelInstaller.installAllUIComponent
 import io.acari.themed.components.settings.Configurations
 
 class ThemedComponents : Disposable {
-    companion object {
-        init {
-          installAllUIComponents()
-        }
-    }
-
     private val connection = ApplicationManager.getApplication().messageBus.connect()
 
     init {
+        installAllUIComponents()
+
         connection.subscribe(LafManagerListener.TOPIC, LafManagerListener {
             installAllUIComponents()
         })
