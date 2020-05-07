@@ -19,8 +19,7 @@ class ThemeSettings : SearchableConfigurable {
     val CHANGELOG_URI =
       URI("https://github.com/Unthrottled/themed-components/blob/master/changelog/CHANGELOG.md")
     val ISSUES_URI = URI("https://github.com/Unthrottled/themed-components/issues")
-    // todo: restore this.
-    val MARKETPLACE_URI = URI("https://https://github.com/Unthrottled/themed-components/issues")
+    val MARKETPLACE_URI = URI("https://plugins.jetbrains.com/plugin/index?xmlId=io.unthrottled.themed-components")
   }
 
   override fun getId(): String = "io.unthrottled.themed.components.settings.Settings"
@@ -67,9 +66,9 @@ class ThemeSettings : SearchableConfigurable {
           button("View Changelog") {
             browse(CHANGELOG_URI)
           }
-//          button("Marketplace Homepage") {
-//            browse(MARKETPLACE_URI)
-//          }
+          button("Marketplace Homepage") {
+            browse(MARKETPLACE_URI)
+          }
         }
       }
     }
