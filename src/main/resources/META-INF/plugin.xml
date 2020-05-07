@@ -4,6 +4,8 @@
     <version>@version@</version>
     <vendor email="alexsimons9999@gmail.com" url="https://github.com/Unthrottled">Unthrottled</vendor>
 
+    <idea-version since-build="193.4099"/>
+
     <description><![CDATA[
         <p>
             A various collection of configurable UI components that give your IDE that little extra something.

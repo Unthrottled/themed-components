@@ -10,12 +10,8 @@ A various collection of configurable UI components that give your JetBrains IDE 
 Works for any theme, custom or built in!
 Colors the MacOS window title bar to the same color as the root window pane.
 
-**Before**
-
-![Before Title Bar](assets/screens/titleDark.png)
-
-**After**
-
-![Themed Title Bar](assets/screens/themedTitleDark.png)
+ |**Before** | **After** |
+ | --- | --- |
+ | ![Before Title Bar](assets/screens/titleDark.png) | ![Themed Title Bar](assets/screens/themedTitleDark.png) |
 
 ### [More themed title bar screens.](assets/screens/ThemedTitleScreens.md)
