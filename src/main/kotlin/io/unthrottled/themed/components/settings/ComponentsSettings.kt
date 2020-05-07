@@ -19,7 +19,7 @@ class ThemeSettings : SearchableConfigurable {
     val CHANGELOG_URI =
       URI("https://github.com/cyclic-reference/themed-components/blob/master/changelog/CHANGELOG.md")
     val ISSUES_URI = URI("https://github.com/cyclic-reference/themed-components/issues")
-    //todo: restore this.
+    // todo: restore this.
     val MARKETPLACE_URI = URI("https://https://github.com/cyclic-reference/themed-components/issues")
   }
 
@@ -73,6 +73,5 @@ class ThemeSettings : SearchableConfigurable {
         }
       }
     }
-
   }
 }

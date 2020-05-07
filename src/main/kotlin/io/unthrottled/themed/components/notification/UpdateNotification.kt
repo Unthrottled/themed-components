@@ -33,13 +33,12 @@ object UpdateNotification {
     )
   }
 
-  fun displayRestartMessage(){
+  fun displayRestartMessage() {
     notificationManager.notify(
       "Please restart your IDE",
       "In order for the change to take effect, please restart your IDE. Thanks! ~"
     )
   }
-
 
     fun displayAnimationInstallMessage() {
       notificationManager.notify(

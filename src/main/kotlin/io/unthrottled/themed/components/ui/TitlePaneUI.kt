@@ -81,7 +81,7 @@ class TitlePaneUI : DarculaRootPaneUI() {
       .filter { isMac || isLinux }
       .ifPresent {
         val isDark =
-          if(it is UIThemeBasedLookAndFeelInfo) it.theme.isDark
+          if (it is UIThemeBasedLookAndFeelInfo) it.theme.isDark
           else StartupUiUtil.isUnderDarcula()
         c?.putClientProperty(WINDOW_DARK_APPEARANCE, isDark)
         val rootPane = c as? JRootPane
@@ -211,7 +211,7 @@ class TitlePaneUI : DarculaRootPaneUI() {
 }
 
 private fun isInFullScreen(window: Window?): Boolean {
-  return when(val parent = UIUtil.findUltimateParent(window)){
+  return when (val parent = UIUtil.findUltimateParent(window)) {
     is IdeFrame -> parent.isInFullScreen
     else -> false
   }

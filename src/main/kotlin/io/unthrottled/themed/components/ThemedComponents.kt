@@ -28,7 +28,6 @@ class ThemedComponents : Disposable {
                 }
             }
         })
-
     }
 
     override fun dispose() {
