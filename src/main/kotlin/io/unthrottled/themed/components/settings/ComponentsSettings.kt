@@ -17,10 +17,10 @@ class ThemeSettings : SearchableConfigurable {
   companion object {
     const val THEME_SETTINGS_DISPLAY_NAME = "Themed Components Settings"
     val CHANGELOG_URI =
-      URI("https://github.com/cyclic-reference/themed-components/blob/master/changelog/CHANGELOG.md")
-    val ISSUES_URI = URI("https://github.com/cyclic-reference/themed-components/issues")
+      URI("https://github.com/Unthrottled/themed-components/blob/master/changelog/CHANGELOG.md")
+    val ISSUES_URI = URI("https://github.com/Unthrottled/themed-components/issues")
     // todo: restore this.
-    val MARKETPLACE_URI = URI("https://https://github.com/cyclic-reference/themed-components/issues")
+    val MARKETPLACE_URI = URI("https://https://github.com/Unthrottled/themed-components/issues")
   }
 
   override fun getId(): String = "io.unthrottled.themed.components.settings.Settings"
