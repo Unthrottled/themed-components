@@ -16,7 +16,8 @@ dependencies {
 }
 
 intellij {
-    version 'LATEST-EAP-SNAPSHOT'
+    version '2020.1.1'
+    type 'IU'
 }
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
