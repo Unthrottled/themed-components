@@ -4,7 +4,8 @@ import com.intellij.ide.ui.LafManagerListener
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.impl.ProjectLifecycleListener
+import com.intellij.openapi.project.ProjectManager
+import com.intellij.openapi.project.ProjectManagerListener
 import io.unthrottled.themed.components.notification.CURRENT_VERSION
 import io.unthrottled.themed.components.notification.UpdateNotification
 import io.unthrottled.themed.components.laf.LookAndFeelInstaller.installAllUIComponents
@@ -19,8 +20,8 @@ class ThemedComponents : Disposable {
         connection.subscribe(LafManagerListener.TOPIC, LafManagerListener {
             installAllUIComponents()
         })
-        connection.subscribe(ProjectLifecycleListener.TOPIC, object : ProjectLifecycleListener {
-            override fun projectComponentsInitialized(project: Project) {
+        connection.subscribe(ProjectManager.TOPIC, object : ProjectManagerListener {
+            override fun projectOpened(project: Project) {
                 if (Configurations.instance.version != CURRENT_VERSION) {
                     Configurations.instance.version =
                         CURRENT_VERSION
