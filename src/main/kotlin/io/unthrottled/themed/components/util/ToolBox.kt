@@ -1,4 +1,4 @@
-package io.acari.themed.components.util
+package io.unthrottled.themed.components.util
 
 import com.intellij.ui.ColorUtil
 import java.awt.Color

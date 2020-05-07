@@ -1,7 +1,7 @@
-package io.acari.themed.components.settings.actors
+package io.unthrottled.themed.components.settings.actors
 
-import io.acari.themed.components.notification.UpdateNotification
-import io.acari.themed.components.settings.Configurations
+import io.unthrottled.themed.components.notification.UpdateNotification
+import io.unthrottled.themed.components.settings.Configurations
 
 object ThemedTitleBarActor {
   fun enableThemedTitleBar(enabled: Boolean) {

@@ -1,10 +1,10 @@
-package io.acari.themed.components.settings
+package io.unthrottled.themed.components.settings
 
 import com.intellij.ide.BrowserUtil.browse
 import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.layout.panel
-import io.acari.themed.components.settings.actors.ThemedTitleBarActor
+import io.unthrottled.themed.components.settings.actors.ThemedTitleBarActor
 import java.net.URI
 import javax.swing.JComponent
 
@@ -23,7 +23,7 @@ class ThemeSettings : SearchableConfigurable {
     val MARKETPLACE_URI = URI("https://https://github.com/cyclic-reference/themed-components/issues")
   }
 
-  override fun getId(): String = "io.acari.themed.components.settings.Settings"
+  override fun getId(): String = "io.unthrottled.themed.components.settings.Settings"
 
   override fun getDisplayName(): String =
     THEME_SETTINGS_DISPLAY_NAME

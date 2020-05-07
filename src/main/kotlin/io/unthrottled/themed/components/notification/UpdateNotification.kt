@@ -1,4 +1,4 @@
-package io.acari.themed.components.notification
+package io.unthrottled.themed.components.notification
 
 import com.intellij.notification.*
 import com.intellij.openapi.project.Project

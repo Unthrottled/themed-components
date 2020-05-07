@@ -1,4 +1,4 @@
-package io.acari.themed.components.ui
+package io.unthrottled.themed.components.ui
 
 import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.laf.UIThemeBasedLookAndFeelInfo
@@ -14,8 +14,8 @@ import com.intellij.util.ui.JBUI.insets
 import com.intellij.util.ui.StartupUiUtil
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.UIUtil.getWindow
-import io.acari.themed.components.settings.Configurations
-import io.acari.themed.components.util.toOptional
+import io.unthrottled.themed.components.settings.Configurations
+import io.unthrottled.themed.components.util.toOptional
 import java.awt.*
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent

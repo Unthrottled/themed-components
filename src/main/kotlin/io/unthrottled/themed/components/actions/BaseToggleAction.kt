@@ -1,4 +1,4 @@
-package io.acari.themed.components.actions
+package io.unthrottled.themed.components.actions
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.ToggleAction
