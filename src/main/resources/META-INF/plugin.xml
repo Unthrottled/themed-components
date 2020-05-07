@@ -19,6 +19,7 @@
                                  instance="io.unthrottled.themed.components.settings.ThemeSettings"
                                  groupId="appearance"/>
         <applicationService serviceImplementation="io.unthrottled.themed.components.settings.Configurations"/>
+        <errorHandler id="9782e40c-e6d2-488f-8669-71f5cca6695e" implementation="io.unthrottled.themed.components.integrations.ErrorReporter"/>
     </extensions>
 
     <application-components>
