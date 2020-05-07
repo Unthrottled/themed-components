@@ -1,8 +1,8 @@
-package io.acari.themed.components.actions
+package io.unthrottled.themed.components.actions
 
 import com.intellij.openapi.actionSystem.AnActionEvent
-import io.acari.themed.components.settings.Configurations
-import io.acari.themed.components.settings.actors.ThemedTitleBarActor
+import io.unthrottled.themed.components.settings.Configurations
+import io.unthrottled.themed.components.settings.actors.ThemedTitleBarActor
 
 class ThemedTitleBarAction : BaseToggleAction() {
   override fun isSelected(e: AnActionEvent): Boolean =

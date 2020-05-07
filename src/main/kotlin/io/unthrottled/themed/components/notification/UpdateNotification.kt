@@ -1,4 +1,4 @@
-package io.acari.themed.components.notification
+package io.unthrottled.themed.components.notification
 
 import com.intellij.notification.*
 import com.intellij.openapi.project.Project
@@ -8,12 +8,12 @@ val UPDATE_MESSAGE: String = """
       <ul>
       <li>MacOS Themed Title Bar.</li>
       </ul>
-      <br>Please see the <a href="https://github.com/cyclic-reference/ddlc-jetbrains-theme/blob/master/changelog/CHANGELOG.md">Changelog</a> for more details.
+      <br>Please see the <a href="https://github.com/Unthrottled/ddlc-jetbrains-theme/blob/master/changelog/CHANGELOG.md">Changelog</a> for more details.
       <br>
       Thanks again for downloading <b>Themed Components</b>! •‿•<br>
 """.trimIndent()
 
-const val CURRENT_VERSION = "1.0.0"
+const val CURRENT_VERSION = "1.1.0"
 
 object UpdateNotification {
 
@@ -33,13 +33,12 @@ object UpdateNotification {
     )
   }
 
-  fun displayRestartMessage(){
+  fun displayRestartMessage() {
     notificationManager.notify(
       "Please restart your IDE",
       "In order for the change to take effect, please restart your IDE. Thanks! ~"
     )
   }
-
 
     fun displayAnimationInstallMessage() {
       notificationManager.notify(

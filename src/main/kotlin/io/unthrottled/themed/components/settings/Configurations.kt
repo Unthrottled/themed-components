@@ -1,4 +1,4 @@
-package io.acari.themed.components.settings
+package io.unthrottled.themed.components.settings
 
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
@@ -19,7 +19,6 @@ class Configurations : PersistentStateComponent<Configurations>, Cloneable {
     var isThemedTitleBar: Boolean = true
     var version: String = "0.0.0"
 
-
     override fun getState(): Configurations? =
         XmlSerializerUtil.createCopy(this)
 
@@ -30,5 +29,4 @@ class Configurations : PersistentStateComponent<Configurations>, Cloneable {
     fun asJson(): Map<String, Any> = mapOf(
         "isThemedTitleBar" to isThemedTitleBar
     )
-
 }

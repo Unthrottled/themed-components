@@ -1,11 +1,12 @@
-package io.acari.themed.components.ui
+package io.unthrottled.themed.components.ui
 
 import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.laf.UIThemeBasedLookAndFeelInfo
 import com.intellij.ide.ui.laf.darcula.ui.DarculaRootPaneUI
-import com.intellij.openapi.util.SystemInfo.*
-import com.intellij.openapi.wm.ex.IdeFrameEx
-import com.intellij.openapi.wm.impl.IdeFrameImpl
+import com.intellij.openapi.util.SystemInfo.isJavaVersionAtLeast
+import com.intellij.openapi.util.SystemInfo.isLinux
+import com.intellij.openapi.util.SystemInfo.isMac
+import com.intellij.openapi.wm.IdeFrame
 import com.intellij.ui.JBColor.GRAY
 import com.intellij.ui.JBColor.namedColor
 import com.intellij.util.ui.GraphicsUtil
@@ -14,15 +15,26 @@ import com.intellij.util.ui.JBUI.insets
 import com.intellij.util.ui.StartupUiUtil
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.UIUtil.getWindow
-import io.acari.themed.components.settings.Configurations
-import io.acari.themed.components.util.toOptional
-import java.awt.*
+import io.unthrottled.themed.components.settings.Configurations
+import io.unthrottled.themed.components.util.toOptional
+import java.awt.Color
+import java.awt.Component
+import java.awt.Graphics
+import java.awt.Graphics2D
+import java.awt.Insets
+import java.awt.Rectangle
+import java.awt.RenderingHints
+import java.awt.Window
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.awt.geom.AffineTransform
 import java.beans.PropertyChangeListener
 import java.util.*
-import javax.swing.*
+import javax.swing.JComponent
+import javax.swing.JDialog
+import javax.swing.JFrame
+import javax.swing.JRootPane
+import javax.swing.UIManager
 import javax.swing.border.AbstractBorder
 import javax.swing.plaf.ComponentUI
 import javax.swing.plaf.basic.BasicRootPaneUI
@@ -69,7 +81,7 @@ class TitlePaneUI : DarculaRootPaneUI() {
       .filter { isMac || isLinux }
       .ifPresent {
         val isDark =
-          if(it is UIThemeBasedLookAndFeelInfo) it.theme.isDark
+          if (it is UIThemeBasedLookAndFeelInfo) it.theme.isDark
           else StartupUiUtil.isUnderDarcula()
         c?.putClientProperty(WINDOW_DARK_APPEARANCE, isDark)
         val rootPane = c as? JRootPane
@@ -199,9 +211,8 @@ class TitlePaneUI : DarculaRootPaneUI() {
 }
 
 private fun isInFullScreen(window: Window?): Boolean {
-  return when(val parent = UIUtil.findUltimateParent(window)){
-    is IdeFrameEx -> parent.isInFullScreen
-    is IdeFrameImpl -> parent.isInFullScreen
+  return when (val parent = UIUtil.findUltimateParent(window)) {
+    is IdeFrame -> parent.isInFullScreen
     else -> false
   }
 }

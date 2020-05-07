@@ -1,8 +1,10 @@
 <idea-plugin>
-    <id>io.acari.themed-components</id>
+    <id>io.unthrottled.themed-components</id>
     <name>Themed Components</name>
     <version>@version@</version>
-    <vendor email="alexsimons9999@gmail.com" url="https://github.com/cyclic-reference">cyclic-reference</vendor>
+    <vendor email="alexsimons9999@gmail.com" url="https://github.com/Unthrottled">Unthrottled</vendor>
+
+    <idea-version since-build="193.4099"/>
 
     <description><![CDATA[
         <p>
@@ -14,21 +16,22 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationConfigurable id="a336bd8d-393c-4e50-8633-243969706439"
-                                 instance="io.acari.themed.components.settings.ThemeSettings"
+                                 instance="io.unthrottled.themed.components.settings.ThemeSettings"
                                  groupId="appearance"/>
-        <applicationService serviceImplementation="io.acari.themed.components.settings.Configurations"/>
+        <applicationService serviceImplementation="io.unthrottled.themed.components.settings.Configurations"/>
+        <errorHandler id="9782e40c-e6d2-488f-8669-71f5cca6695e" implementation="io.unthrottled.themed.components.integrations.ErrorReporter"/>
     </extensions>
 
     <application-components>
         <component>
-            <implementation-class>io.acari.themed.components.ThemedComponents</implementation-class>
+            <implementation-class>io.unthrottled.themed.components.ThemedComponents</implementation-class>
         </component>
     </application-components>
 
 
     <actions>
-        <action id="io.acari.themed.components.actions.ThemedTitleBarAction"
-                class="io.acari.themed.components.actions.ThemedTitleBarAction" text="Themed Title Bar"
+        <action id="io.unthrottled.themed.components.actions.ThemedTitleBarAction"
+                class="io.unthrottled.themed.components.actions.ThemedTitleBarAction" text="Themed Title Bar"
                 icon="/icons/themedTitleBar.svg"
                 description="Makes the MacOS title bar the same color as your selected theme."/>
     </actions>

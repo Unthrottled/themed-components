@@ -1,10 +1,10 @@
-package io.acari.themed.components.settings
+package io.unthrottled.themed.components.settings
 
 import com.intellij.ide.BrowserUtil.browse
 import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.layout.panel
-import io.acari.themed.components.settings.actors.ThemedTitleBarActor
+import io.unthrottled.themed.components.settings.actors.ThemedTitleBarActor
 import java.net.URI
 import javax.swing.JComponent
 
@@ -17,13 +17,12 @@ class ThemeSettings : SearchableConfigurable {
   companion object {
     const val THEME_SETTINGS_DISPLAY_NAME = "Themed Components Settings"
     val CHANGELOG_URI =
-      URI("https://github.com/cyclic-reference/themed-components/blob/master/changelog/CHANGELOG.md")
-    val ISSUES_URI = URI("https://github.com/cyclic-reference/themed-components/issues")
-    //todo: restore this.
-    val MARKETPLACE_URI = URI("https://https://github.com/cyclic-reference/themed-components/issues")
+      URI("https://github.com/Unthrottled/themed-components/blob/master/changelog/CHANGELOG.md")
+    val ISSUES_URI = URI("https://github.com/Unthrottled/themed-components/issues")
+    val MARKETPLACE_URI = URI("https://plugins.jetbrains.com/plugin/index?xmlId=io.unthrottled.themed-components")
   }
 
-  override fun getId(): String = "io.acari.themed.components.settings.Settings"
+  override fun getId(): String = "io.unthrottled.themed.components.settings.Settings"
 
   override fun getDisplayName(): String =
     THEME_SETTINGS_DISPLAY_NAME
@@ -67,12 +66,11 @@ class ThemeSettings : SearchableConfigurable {
           button("View Changelog") {
             browse(CHANGELOG_URI)
           }
-//          button("Marketplace Homepage") {
-//            browse(MARKETPLACE_URI)
-//          }
+          button("Marketplace Homepage") {
+            browse(MARKETPLACE_URI)
+          }
         }
       }
     }
-
   }
 }
