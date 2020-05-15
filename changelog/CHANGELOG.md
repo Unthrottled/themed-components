@@ -2,6 +2,10 @@
 
 ---
 
+# 1.1.1
+
+- Fixed issue with dragging tab out of main window, and the themed title bar being enabled.
+
 # 1.1.0
 
 - 2020.1 Build support
