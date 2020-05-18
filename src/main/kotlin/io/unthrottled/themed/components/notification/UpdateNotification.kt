@@ -13,7 +13,7 @@ val UPDATE_MESSAGE: String = """
       Thanks again for downloading <b>Themed Components</b>! •‿•<br>
 """.trimIndent()
 
-const val CURRENT_VERSION = "1.1.1"
+const val CURRENT_VERSION = "1.1.2"
 
 object UpdateNotification {
 
