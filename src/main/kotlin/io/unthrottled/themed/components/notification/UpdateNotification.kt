@@ -6,14 +6,14 @@ import com.intellij.openapi.project.Project
 val UPDATE_MESSAGE: String = """
       What's New?<br>
       <ul>
-      <li>MacOS Themed Title Bar.</li>
+      <li>2020.2 Build Support.</li>
       </ul>
-      <br>Please see the <a href="https://github.com/Unthrottled/ddlc-jetbrains-theme/blob/master/changelog/CHANGELOG.md">Changelog</a> for more details.
+      <br>Please see the <a href="https://github.com/Unthrottled/themed-components/blob/master/changelog/CHANGELOG.md">Changelog</a> for more details.
       <br>
       Thanks again for downloading <b>Themed Components</b>! •‿•<br>
 """.trimIndent()
 
-const val CURRENT_VERSION = "1.1.2"
+const val CURRENT_VERSION = "1.1.3"
 
 object UpdateNotification {
 
