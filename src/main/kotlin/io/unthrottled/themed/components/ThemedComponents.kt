@@ -42,7 +42,6 @@ class ThemedComponents : Disposable {
     PluginManagerCore.getPlugin(PluginId.getId(PLUGIN_ID)).toOptional()
       .map { it.version }
 
-
   override fun dispose() {
         connection.dispose()
     }
