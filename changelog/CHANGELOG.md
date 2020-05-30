@@ -2,6 +2,10 @@
 
 ---
 
+# 1.1.3
+
+- Now supporting 202 builds!
+
 # 1.1.2
 
 - Only supporting 201 builds.
