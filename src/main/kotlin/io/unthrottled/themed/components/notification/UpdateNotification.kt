@@ -13,8 +13,6 @@ val UPDATE_MESSAGE: String = """
       Thanks again for downloading <b>Themed Components</b>! •‿•<br>
 """.trimIndent()
 
-const val CURRENT_VERSION = "1.1.3"
-
 object UpdateNotification {
 
   private val notificationManager by lazy {
@@ -24,9 +22,9 @@ object UpdateNotification {
       NotificationType.INFORMATION)
   }
 
-  fun display(project: Project) {
+  fun display(project: Project, currentVersion: String) {
     notificationManager.notify(
-      "Themed Components updated to v$CURRENT_VERSION",
+      "Themed Components updated to v$currentVersion",
       UPDATE_MESSAGE,
       project,
       NotificationListener.URL_OPENING_LISTENER
