@@ -26,6 +26,9 @@
         <component>
             <implementation-class>io.unthrottled.themed.components.ThemedComponents</implementation-class>
         </component>
+        <component>
+            <implementation-class>io.unthrottled.themed.components.hax.HackComponent</implementation-class>
+        </component>
     </application-components>
 
 
