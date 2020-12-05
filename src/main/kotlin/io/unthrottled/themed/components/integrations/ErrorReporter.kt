@@ -1,10 +1,9 @@
 package io.unthrottled.themed.components.integrations
 
-import com.google.gson.GsonBuilder
+import com.google.gson.Gson
 import com.intellij.ide.IdeBundle
 import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.ide.ui.LafManager
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ApplicationNamesInfo
 import com.intellij.openapi.application.ex.ApplicationInfoEx
 import com.intellij.openapi.application.impl.ApplicationInfoImpl
@@ -16,25 +15,35 @@ import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.openapi.util.registry.Registry
 import com.intellij.util.Consumer
 import com.intellij.util.text.DateFormatUtil
+import io.sentry.DefaultSentryClientFactory
+import io.sentry.SentryClient
+import io.sentry.dsn.Dsn
+import io.sentry.event.Event
+import io.sentry.event.EventBuilder
+import io.sentry.event.UserBuilder
 import io.unthrottled.themed.components.settings.Configurations
-import org.apache.http.client.methods.HttpPost
-import org.apache.http.entity.ContentType
-import org.apache.http.entity.StringEntity
-import org.apache.http.impl.client.HttpClients
 import java.awt.Component
 import java.lang.management.ManagementFactory
 import java.text.SimpleDateFormat
 import java.util.Arrays
+import java.util.Properties
 import java.util.stream.Collectors
 
 class ErrorReporter : ErrorReportSubmitter() {
-  companion object {
-    private val httpClient = HttpClients.createMinimal()
-    private const val errorReportingUrl = "https://doki.api.unthrottled.io/slack/error"
-    private val gson = GsonBuilder().create()
-  }
-
   override fun getReportActionText(): String = "Report Anonymously"
+
+  companion object {
+    private val sentryClient: SentryClient =
+      DefaultSentryClientFactory().createSentryClient(
+        Dsn(
+          RestClient.performGet(
+            "https://jetbrains.assets.unthrottled.io/themed-components/sentry-dsn.txt"
+          )
+            .map { it.trim() }
+            .orElse("https://59b606f574864d25b36b8bd254a460b5@o403546.ingest.sentry.io/5546039?maxmessagelength=50000")
+        )
+      )
+  }
 
   override fun submit(
     events: Array<out IdeaLoggingEvent>,
@@ -43,40 +52,74 @@ class ErrorReporter : ErrorReportSubmitter() {
     consumer: Consumer<in SubmittedReportInfo>
   ): Boolean {
     return try {
-      val httpPost = HttpPost(errorReportingUrl)
-      val eventMessages = events.map {
-        """_Message_: ${it.message}
-          |_Throwable Text_: ${it.throwableText}""".trimMargin()
-      }.joinToString(separator = "\n")
-      val supplementedInfo = if (additionalInfo != null) """$eventMessages
-        Additional Info: $additionalInfo
-      """.trimIndent() else eventMessages
-      val formattedMessage =
-        """
-        *System Info*:
-        ```${getSystemInfo()}```
-        *Error Info*:
-        $supplementedInfo
-        """.trimIndent()
-      val message = ErrorMessage(formattedMessage)
-      httpPost.entity = StringEntity(gson.toJson(message), ContentType.APPLICATION_JSON)
-      ApplicationManager.getApplication().executeOnPooledThread {
-        httpClient.execute(httpPost)
+      events.forEach {
+        sentryClient.context.user =
+          UserBuilder().setId(
+            Configurations.instance
+              .let { config -> config.userId }
+          ).build()
+        sentryClient.sendEvent(
+          addSystemInfo(
+            EventBuilder()
+              .withLevel(Event.Level.ERROR)
+              .withServerName(getAppName().second)
+              .withExtra("Message", it.message)
+              .withExtra("Additional Info", additionalInfo ?: "None")
+          ).withMessage(it.throwableText)
+        )
+        sentryClient.clearContext()
       }
       true
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
       false
     }
   }
 
-  private fun getSystemInfo(): String {
-    val myInfo = StringBuilder()
-    val appInfo = ApplicationInfoEx.getInstanceEx() as ApplicationInfoImpl
-    var appName = appInfo.fullApplicationName
-    val edition = ApplicationNamesInfo.getInstance().editionName
-    if (edition != null) appName += " ($edition)"
-    myInfo.append(appName).append("\n")
+  private fun addSystemInfo(event: EventBuilder): EventBuilder {
+    val pair = getAppName()
+    val appInfo = pair.first
+    val appName = pair.second
+    val properties = System.getProperties()
+    return event
+      .withExtra("App Name", appName)
+      .withExtra("Build Info", getBuildInfo(appInfo))
+      .withExtra("JRE", getJRE(properties))
+      .withExtra("VM", getVM(properties))
+      .withExtra("System Info", SystemInfo.getOsNameAndVersion())
+      .withExtra("GC", getGC())
+      .withExtra("Memory", Runtime.getRuntime().maxMemory() / FileUtilRt.MEGABYTE)
+      .withExtra("Cores", Runtime.getRuntime().availableProcessors())
+      .withExtra("Registry", getRegistry())
+      .withExtra("Non-Bundled Plugins", getNonBundledPlugins())
+      .withExtra("Current LAF", LafManager.getInstance().currentLookAndFeel?.name)
+      .withExtra("Themed Components Config", Configurations.instance.let { Gson().toJson(it) })
+  }
 
+  private fun getJRE(properties: Properties): String? {
+    val javaVersion = properties.getProperty("java.runtime.version", properties.getProperty("java.version", "unknown"))
+    val arch = properties.getProperty("os.arch", "")
+    return IdeBundle.message("about.box.jre", javaVersion, arch)
+  }
+
+  private fun getVM(properties: Properties): String? {
+    val vmVersion = properties.getProperty("java.vm.name", "unknown")
+    val vmVendor = properties.getProperty("java.vendor", "unknown")
+    return IdeBundle.message("about.box.vm", vmVersion, vmVendor)
+  }
+
+  private fun getNonBundledPlugins(): String? {
+    return Arrays.stream(PluginManagerCore.getPlugins())
+      .filter { p -> !p.isBundled && p.isEnabled }
+      .map { p -> p.pluginId.idString }.collect(Collectors.joining(","))
+  }
+
+  private fun getRegistry() = Registry.getAll().stream().filter { it.isChangedFromDefault }
+    .map { v -> v.key + "=" + v.asString() }.collect(Collectors.joining(","))
+
+  private fun getGC() = ManagementFactory.getGarbageCollectorMXBeans().stream()
+    .map { it.name }.collect(Collectors.joining(","))
+
+  private fun getBuildInfo(appInfo: ApplicationInfoImpl): String? {
     var buildInfo = IdeBundle.message("about.box.build.number", appInfo.build.asString())
     val cal = appInfo.buildDate
     var buildDate = ""
@@ -85,38 +128,14 @@ class ErrorReporter : ErrorReportSubmitter() {
     }
     buildDate += DateFormatUtil.formatAboutDialogDate(cal.time)
     buildInfo += IdeBundle.message("about.box.build.date", buildDate)
-    myInfo.append(buildInfo).append("\n")
-
-    val properties = System.getProperties()
-    val javaVersion = properties.getProperty("java.runtime.version", properties.getProperty("java.version", "unknown"))
-    val arch = properties.getProperty("os.arch", "")
-    myInfo.append(IdeBundle.message("about.box.jre", javaVersion, arch)).append("\n")
-
-    val vmVersion = properties.getProperty("java.vm.name", "unknown")
-    val vmVendor = properties.getProperty("java.vendor", "unknown")
-    myInfo.append(IdeBundle.message("about.box.vm", vmVersion, vmVendor)).append("\n")
-
-    return """$myInfo${extraInfo()}
-      |Current Laf: ${LafManager.getInstance().currentLookAndFeel?.name}
-      |Themed Components Config: ${Configurations.instance.asJson()}""".trimMargin()
+    return buildInfo
   }
 
-  private fun extraInfo(): String {
-    return SystemInfo.getOsNameAndVersion() + "\n" +
-      "GC: " + ManagementFactory.getGarbageCollectorMXBeans().stream()
-      .map<String> { it.name }.collect(Collectors.joining(",")) + "\n" +
-
-      "Memory: " + Runtime.getRuntime().maxMemory() / FileUtilRt.MEGABYTE + "M" + "\n" +
-
-      "Cores: " + Runtime.getRuntime().availableProcessors() + "\n" +
-
-      "Registry: " + Registry.getAll().stream().filter { it.isChangedFromDefault }
-      .map { v -> v.key + "=" + v.asString() }.collect(Collectors.joining(",")) + "\n" +
-
-      "Non-Bundled Plugins: " + Arrays.stream(PluginManagerCore.getPlugins())
-      .filter { p -> !p.isBundled && p.isEnabled }
-      .map { p -> p.pluginId.idString }.collect(Collectors.joining(","))
+  private fun getAppName(): Pair<ApplicationInfoImpl, String> {
+    val appInfo = ApplicationInfoEx.getInstanceEx() as ApplicationInfoImpl
+    var appName = appInfo.fullApplicationName
+    val edition = ApplicationNamesInfo.getInstance().editionName
+    if (edition != null) appName += " ($edition)"
+    return Pair(appInfo, appName)
   }
 }
-
-data class ErrorMessage(val text: String)

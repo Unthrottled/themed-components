@@ -18,6 +18,7 @@ class Configurations : PersistentStateComponent<Configurations>, Cloneable {
 
   var isThemedTitleBar: Boolean = true
   var version: String = "0.0.0"
+  var userId: String = ""
 
   override fun getState(): Configurations? =
     XmlSerializerUtil.createCopy(this)
@@ -25,8 +26,4 @@ class Configurations : PersistentStateComponent<Configurations>, Cloneable {
   override fun loadState(state: Configurations) {
     XmlSerializerUtil.copyBean(state, this)
   }
-
-  fun asJson(): Map<String, Any> = mapOf(
-    "isThemedTitleBar" to isThemedTitleBar
-  )
 }

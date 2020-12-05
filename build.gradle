@@ -1,33 +1,40 @@
 plugins {
-    id 'org.jetbrains.intellij' version '0.4.15'
-    id 'org.jetbrains.kotlin.jvm' version "1.4.20"
-    id "org.jlleitschuh.gradle.ktlint" version "9.4.1"
+  id 'org.jetbrains.intellij' version '0.4.15'
+  id 'org.jetbrains.kotlin.jvm' version "1.4.20"
+  id "org.jlleitschuh.gradle.ktlint" version "9.4.1"
 }
 
 group 'io.unthrottled'
 version '1.2.0'
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "org.javassist:javassist:3.21.0-GA"
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+  implementation "io.sentry:sentry:1.7.30"
+  implementation "commons-io:commons-io:2.6"
+  implementation "org.javassist:javassist:3.21.0-GA"
+}
+
+configurations {
+  // sentry brings in a slf4j that breaks things
+  implementation.exclude group: 'org.slf4j'
 }
 
 intellij {
-    version '2020.3'
-    type 'IU'
+  version '2020.3'
+  type 'IU'
 }
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.jvmTarget = "1.8"
 }
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.jvmTarget = "1.8"
 }
 patchPluginXml {
-    changeNotes file("$projectDir/changelog/CHANGELOG.html").text
-    sinceBuild sinceBuildVersion
-    untilBuild untilBuildVersion
+  changeNotes file("$projectDir/changelog/CHANGELOG.html").text
+  sinceBuild sinceBuildVersion
+  untilBuild untilBuildVersion
 }

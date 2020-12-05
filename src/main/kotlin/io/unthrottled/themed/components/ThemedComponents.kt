@@ -8,11 +8,13 @@ import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManager
 import com.intellij.openapi.project.ProjectManagerListener
+import com.intellij.openapi.startup.StartupManager
 import io.unthrottled.themed.components.laf.LookAndFeelInstaller.installAllUIComponents
 import io.unthrottled.themed.components.notification.UpdateNotification
 import io.unthrottled.themed.components.settings.Configurations
 import io.unthrottled.themed.components.util.toOptional
 import java.util.Optional
+import java.util.UUID
 
 class ThemedComponents : Disposable {
   private val connection = ApplicationManager.getApplication().messageBus.connect()
@@ -21,6 +23,8 @@ class ThemedComponents : Disposable {
     private const val PLUGIN_ID = "io.unthrottled.themed-components"
   }
   init {
+    registerUser()
+
     installAllUIComponents()
 
     connection.subscribe(
@@ -37,11 +41,23 @@ class ThemedComponents : Disposable {
             .filter { it != Configurations.instance.version }
             .ifPresent {
               Configurations.instance.version = it
-              UpdateNotification.display(project, it)
+              StartupManager.getInstance(project)
+                .runWhenProjectIsInitialized {
+                  UpdateNotification.display(project, it)
+                }
             }
         }
       }
     )
+  }
+
+  private fun registerUser() {
+    Configurations.instance
+      .toOptional()
+      .filter { it.userId.isEmpty() }
+      .ifPresent {
+        it.userId = UUID.randomUUID().toString()
+      }
   }
 
   private fun getVersion(): Optional<String> =

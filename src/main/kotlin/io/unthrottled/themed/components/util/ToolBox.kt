@@ -1,7 +1,9 @@
 package io.unthrottled.themed.components.util
 
 import com.intellij.ui.ColorUtil
+import org.apache.commons.io.IOUtils
 import java.awt.Color
+import java.io.InputStream
 import java.util.Optional
 import java.util.concurrent.Callable
 import java.util.stream.Stream
@@ -30,3 +32,5 @@ fun <T> T?.toStream(): Stream<T> = Stream.of(this)
 fun Color.toHexString() = "#${ColorUtil.toHex(this)}"
 
 fun String.toColor() = ColorUtil.fromHex(this)
+
+fun InputStream.readAllTheBytes(): ByteArray = IOUtils.toByteArray(this)
