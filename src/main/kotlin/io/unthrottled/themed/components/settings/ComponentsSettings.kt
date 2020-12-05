@@ -45,32 +45,32 @@ class ThemeSettings : SearchableConfigurable {
 
   private fun createSettingsPane(): DialogPanel =
     panel {
-    titledRow("Main Settings") {
-      row {
-        checkBox(
-          "Themed Title Bar",
-          themeSettingsModel.isThemedTitleBar,
-          comment = "Feature only works on MacOS",
-          actionListener = { _, component ->
-            themeSettingsModel.isThemedTitleBar = component.isSelected
-          }
-        )
+      titledRow("Main Settings") {
+        row {
+          checkBox(
+            "Themed Title Bar",
+            themeSettingsModel.isThemedTitleBar,
+            comment = "Feature only works on MacOS",
+            actionListener = { _, component ->
+              themeSettingsModel.isThemedTitleBar = component.isSelected
+            }
+          )
+        }
       }
-    }
-    titledRow("Miscellaneous Items") {
-      row {
-        cell {
-          button("View Issues") {
-            browse(ISSUES_URI)
-          }
-          button("View Changelog") {
-            browse(CHANGELOG_URI)
-          }
-          button("Marketplace Homepage") {
-            browse(MARKETPLACE_URI)
+      titledRow("Miscellaneous Items") {
+        row {
+          cell {
+            button("View Issues") {
+              browse(ISSUES_URI)
+            }
+            button("View Changelog") {
+              browse(CHANGELOG_URI)
+            }
+            button("Marketplace Homepage") {
+              browse(MARKETPLACE_URI)
+            }
           }
         }
       }
     }
-  }
 }

@@ -4,17 +4,17 @@ import io.unthrottled.themed.components.ui.TitlePaneUI
 import javax.swing.UIManager
 
 object LookAndFeelInstaller {
-    init {
-      installAllUIComponents()
-    }
+  init {
+    installAllUIComponents()
+  }
 
-    fun installAllUIComponents() {
-      installTitlePane()
-    }
+  fun installAllUIComponents() {
+    installTitlePane()
+  }
 
-    private fun installTitlePane() {
-        val defaults = UIManager.getLookAndFeelDefaults()
-        defaults["RootPaneUI"] = TitlePaneUI::class.java.name
-        defaults[TitlePaneUI::class.java.name] = TitlePaneUI::class.java
-    }
+  private fun installTitlePane() {
+    val defaults = UIManager.getLookAndFeelDefaults()
+    defaults["RootPaneUI"] = TitlePaneUI::class.java.name
+    defaults[TitlePaneUI::class.java.name] = TitlePaneUI::class.java
+  }
 }

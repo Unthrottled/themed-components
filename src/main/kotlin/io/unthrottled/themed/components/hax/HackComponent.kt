@@ -17,7 +17,6 @@ object HackComponent {
     enableTitlePaneConsistency()
   }
 
-
   private fun enableTitlePaneConsistency() {
     hackSheetMessage()
   }

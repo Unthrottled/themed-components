@@ -24,7 +24,7 @@ import org.apache.http.impl.client.HttpClients
 import java.awt.Component
 import java.lang.management.ManagementFactory
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Arrays
 import java.util.stream.Collectors
 
 class ErrorReporter : ErrorReportSubmitter() {
@@ -51,11 +51,13 @@ class ErrorReporter : ErrorReportSubmitter() {
       val supplementedInfo = if (additionalInfo != null) """$eventMessages
         Additional Info: $additionalInfo
       """.trimIndent() else eventMessages
-      val formattedMessage = """
+      val formattedMessage =
+        """
         *System Info*:
         ```${getSystemInfo()}```
         *Error Info*:
-        $supplementedInfo""".trimIndent()
+        $supplementedInfo
+        """.trimIndent()
       val message = ErrorMessage(formattedMessage)
       httpPost.entity = StringEntity(gson.toJson(message), ContentType.APPLICATION_JSON)
       ApplicationManager.getApplication().executeOnPooledThread {

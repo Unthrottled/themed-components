@@ -1,25 +1,35 @@
 package io.unthrottled.themed.components.notification
 
-import com.intellij.notification.*
+import com.intellij.notification.NotificationDisplayType
+import com.intellij.notification.NotificationGroup
+import com.intellij.notification.NotificationListener
+import com.intellij.notification.NotificationType
+import com.intellij.notification.SingletonNotificationManager
 import com.intellij.openapi.project.Project
 
-val UPDATE_MESSAGE: String = """
+val UPDATE_MESSAGE: String =
+  """
       What's New?<br>
       <ul>
-      <li>2020.2 Build Support.</li>
+      <li>2020.3 Build Support.</li>
+      <li>Fixed bug with dialog windows.</li>
       </ul>
       <br>Please see the <a href="https://github.com/Unthrottled/themed-components/blob/master/changelog/CHANGELOG.md">Changelog</a> for more details.
       <br>
       Thanks again for downloading <b>Themed Components</b>! •‿•<br>
-""".trimIndent()
+  """.trimIndent()
 
 object UpdateNotification {
 
   private val notificationManager by lazy {
     SingletonNotificationManager(
-      NotificationGroup("Themed Components Updates",
-      NotificationDisplayType.STICKY_BALLOON, true),
-      NotificationType.INFORMATION)
+      NotificationGroup(
+        "Themed Components Updates",
+        NotificationDisplayType.STICKY_BALLOON,
+        true
+      ),
+      NotificationType.INFORMATION
+    )
   }
 
   fun display(project: Project, currentVersion: String) {
@@ -37,13 +47,4 @@ object UpdateNotification {
       "In order for the change to take effect, please restart your IDE. Thanks! ~"
     )
   }
-
-    fun displayAnimationInstallMessage() {
-      notificationManager.notify(
-        "Theme Transition Animation Enabled",
-        """The animations will remain in your IDE after uninstalling the plugin.
-          |To remove them, un-check this action or remove them at "Help -> Find Action -> ide.intellij.laf.enable.animation". 
-        """.trimMargin()
-      )
-    }
 }
