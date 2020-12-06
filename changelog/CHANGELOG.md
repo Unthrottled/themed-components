@@ -2,6 +2,11 @@
 
 ---
 
+# 1.2.0
+
+- Fixed dialog window bug. [See issue for more details](https://github.com/Unthrottled/themed-components/issues/8)
+- Supporting 2020.3 Builds
+
 # 1.1.3
 
 - Now supporting 202 builds!
