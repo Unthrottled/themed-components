@@ -16,6 +16,7 @@ import com.intellij.util.ui.StartupUiUtil
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.UIUtil.getWindow
 import io.unthrottled.themed.components.settings.Configurations
+import io.unthrottled.themed.components.util.Constants
 import io.unthrottled.themed.components.util.toOptional
 import java.awt.Color
 import java.awt.Component
@@ -137,8 +138,8 @@ class TitlePaneUI : DarculaRootPaneUI() {
           graphics.fill(headerRectangle)
           graphics.font = UIManager.getFont("Panel.font")
           val color: Color =
-            if (window!!.isActive) namedColor("Label.foreground", Color.black)
-            else namedColor("Label.disabledForeground", GRAY)
+            if (window!!.isActive) namedColor(Constants.TITLE_PANE_PROP, Color.black)
+            else namedColor(Constants.TITLE_PANE_INACTIVE_PROP, GRAY)
           graphics.color = color
           val controlButtonsWidth = 70
           val windowTitle: String = getTitle(window)
