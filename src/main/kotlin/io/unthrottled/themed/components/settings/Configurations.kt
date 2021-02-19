@@ -22,6 +22,7 @@ class Configurations : PersistentStateComponent<Configurations>, Cloneable {
         titleForegroundColor = instance.titleForegroundColor,
         titleInactiveForegroundColor = instance.titleInactiveForegroundColor,
         isCustomColors = instance.isCustomColors,
+        isThemedTitleBar = instance.isThemedTitleBar,
       )
   }
 
