@@ -17,18 +17,17 @@ object LookAndFeelInstaller {
   }
 
   private fun installCustomColors() {
-    if(Configurations.instance.isCustomColors.not()) return
+    if (Configurations.instance.isCustomColors.not()) return
 
     val lookAndFeelDefaults = UIManager.getLookAndFeelDefaults()
     Configurations.instance.titleForegroundColor.toColor()
       .ifPresent { lookAndFeelDefaults[Constants.TITLE_PANE_PROP] = it }
     Configurations.instance.titleInactiveForegroundColor.toColor()
       .ifPresent { lookAndFeelDefaults[Constants.TITLE_PANE_INACTIVE_PROP] = it }
-
   }
 
   private fun installTitlePane() {
-    if(Configurations.instance.isThemedTitleBar.not()) return
+    if (Configurations.instance.isThemedTitleBar.not()) return
 
     val defaults = UIManager.getLookAndFeelDefaults()
     defaults["RootPaneUI"] = TitlePaneUI::class.java.name

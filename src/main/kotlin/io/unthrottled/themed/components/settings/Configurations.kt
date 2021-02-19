@@ -16,7 +16,6 @@ class Configurations : PersistentStateComponent<Configurations>, Cloneable {
     val instance: Configurations
       get() = ServiceManager.getService(Configurations::class.java)
 
-
     @JvmStatic
     fun getInitialSettings(): PluginSettingsModel =
       PluginSettingsModel(
