@@ -42,7 +42,7 @@ public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll
     inactiveForegroundColorPanel = new ColorPanel();
     inactiveForegroundColorPanel.repaint();
     inactiveForegroundColorPanel.addActionListener(e ->
-      pluginSettingsModel.setTitleForegroundColor(
+      pluginSettingsModel.setTitleInactiveForegroundColor(
         ToolBox.toHex(Objects.requireNonNull(inactiveForegroundColorPanel.getSelectedColor()))
       ));
     initializeCustomCreateComponents(settings);
@@ -54,7 +54,7 @@ public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll
         .orElse(JBColor.namedColor(Constants.TITLE_PANE_PROP, JBColor.WHITE))
     );
     inactiveForegroundColorPanel.setSelectedColor(
-      ToolBox.toColor(settings.getTitleForegroundColor())
+      ToolBox.toColor(settings.getTitleInactiveForegroundColor())
         .orElse(JBColor.namedColor(Constants.TITLE_PANE_INACTIVE_PROP, JBColor.WHITE))
     );
   }
