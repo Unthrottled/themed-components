@@ -24,7 +24,7 @@ configurations {
 }
 
 intellij {
-  version '2020.3'
+  version 'LATEST-EAP-SNAPSHOT'
   type 'IU'
 }
 compileKotlin {
