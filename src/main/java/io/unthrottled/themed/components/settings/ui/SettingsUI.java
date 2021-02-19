@@ -107,7 +107,6 @@ public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll
     Configurations.getInstance().setThemedTitleBar(pluginSettingsModel.isThemedTitleBar());
 
     LookAndFeelInstaller.INSTANCE.installAllUIComponents();
-    ApplicationManager.getApplication().invokeLater(IdeBackgroundUtil::repaintAllWindows);
     initialSettings = pluginSettingsModel.duplicate();
   }
 }
