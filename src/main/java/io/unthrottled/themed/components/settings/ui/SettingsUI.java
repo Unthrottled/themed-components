@@ -1,10 +1,8 @@
 package io.unthrottled.themed.components.settings.ui;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.wm.impl.IdeBackgroundUtil;
 import com.intellij.ui.ColorPanel;
 import com.intellij.ui.JBColor;
 import io.unthrottled.themed.components.laf.LookAndFeelInstaller;
