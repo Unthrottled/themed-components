@@ -25,12 +25,20 @@ fun runSafely(
     onError(e)
   }
 
+object ToolBox {
+  @JvmStatic
+  fun toColor(colorString: String): Optional<Color> = colorString.toColor()
+  @JvmStatic
+  fun toHex(color: Color): String = color.toHexString()
+}
+
 fun <T> T?.toOptional() = Optional.ofNullable(this)
 
 fun <T> T?.toStream(): Stream<T> = Stream.of(this)
 
 fun Color.toHexString() = "#${ColorUtil.toHex(this)}"
 
-fun String.toColor() = ColorUtil.fromHex(this)
+fun String.toColor(): Optional<Color> =
+  getSafely { ColorUtil.fromHex(this) }
 
 fun InputStream.readAllTheBytes(): ByteArray = IOUtils.toByteArray(this)

@@ -12,11 +12,24 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 )
 class Configurations : PersistentStateComponent<Configurations>, Cloneable {
   companion object {
+    @JvmStatic
     val instance: Configurations
       get() = ServiceManager.getService(Configurations::class.java)
+
+
+    @JvmStatic
+    fun getInitialSettings(): PluginSettingsModel =
+      PluginSettingsModel(
+        titleForegroundColor = instance.titleForegroundColor,
+        titleInactiveForegroundColor = instance.titleInactiveForegroundColor,
+        isCustomColors = instance.isCustomColors,
+      )
   }
 
   var isThemedTitleBar: Boolean = true
+  var isCustomColors: Boolean = false
+  var titleForegroundColor: String = ""
+  var titleInactiveForegroundColor: String = ""
   var version: String = "0.0.0"
   var userId: String = ""
 
