@@ -2,6 +2,11 @@
 
 ---
 
+# 1.3.0
+
+- Added the ability to customize the Title bar color in Windows 10 and MacOS!
+- 2021 Build Support
+
 # 1.2.0
 
 - Fixed dialog window bug. [See issue for more details](https://github.com/Unthrottled/themed-components/issues/8)

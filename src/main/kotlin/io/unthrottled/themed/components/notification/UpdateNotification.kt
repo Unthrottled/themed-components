@@ -6,13 +6,15 @@ import com.intellij.notification.NotificationListener
 import com.intellij.notification.NotificationType
 import com.intellij.notification.SingletonNotificationManager
 import com.intellij.openapi.project.Project
+import org.intellij.lang.annotations.Language
 
+@Language("HTML")
 val UPDATE_MESSAGE: String =
   """
       What's New?<br>
       <ul>
-      <li>2020.3 Build Support.</li>
-      <li>Fixed bug with dialog windows.</li>
+      <li>Able to customize the title pane foreground color in MacOS and Windows 10.</li>
+      <li>2021 Build Support.</li>
       </ul>
       <br>Please see the <a href="https://github.com/Unthrottled/themed-components/blob/master/changelog/CHANGELOG.md">Changelog</a> for more details.
       <br>
