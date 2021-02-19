@@ -6,9 +6,11 @@ import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.wm.impl.IdeBackgroundUtil;
 import com.intellij.ui.ColorPanel;
 import com.intellij.ui.JBColor;
+import io.unthrottled.themed.components.laf.LookAndFeelInstaller;
 import io.unthrottled.themed.components.settings.ComponentsSettings;
 import io.unthrottled.themed.components.settings.Configurations;
 import io.unthrottled.themed.components.settings.PluginSettingsModel;
+import io.unthrottled.themed.components.util.Constants;
 import io.unthrottled.themed.components.util.ToolBox;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +34,7 @@ public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll
     foregroundColorPanel = new ColorPanel();
     foregroundColorPanel.setSelectedColor(
       ToolBox.toColor(settings.getTitleForegroundColor())
-        .orElse(JBColor.namedColor("TitlePane.infoForeground", JBColor.WHITE))
+        .orElse(JBColor.namedColor(Constants.TITLE_PANE_PROP, JBColor.WHITE))
     );
     foregroundColorPanel.repaint();
     foregroundColorPanel.addActionListener(e ->
@@ -43,7 +45,7 @@ public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll
     inactiveForegroundColorPanel = new ColorPanel();
     inactiveForegroundColorPanel.setSelectedColor(
       ToolBox.toColor(settings.getTitleForegroundColor())
-        .orElse(JBColor.namedColor("TitlePane.inactiveInfoForeground", JBColor.WHITE))
+        .orElse(JBColor.namedColor(Constants.TITLE_PANE_INACTIVE_PROP, JBColor.WHITE))
     );
     inactiveForegroundColorPanel.repaint();
     inactiveForegroundColorPanel.addActionListener(e ->
@@ -82,6 +84,7 @@ public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll
     Configurations.getInstance().setTitleInactiveForegroundColor(pluginSettingsModel.getTitleInactiveForegroundColor());
     Configurations.getInstance().setTitleForegroundColor(pluginSettingsModel.getTitleForegroundColor());
 
+    LookAndFeelInstaller.INSTANCE.installAllUIComponents();
     IdeBackgroundUtil.repaintAllWindows();
     initialSettings = pluginSettingsModel.duplicate();
   }
