@@ -1,5 +1,6 @@
 package io.unthrottled.themed.components.settings.ui;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.DumbAware;
@@ -106,7 +107,7 @@ public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll
     Configurations.getInstance().setThemedTitleBar(pluginSettingsModel.isThemedTitleBar());
 
     LookAndFeelInstaller.INSTANCE.installAllUIComponents();
-    IdeBackgroundUtil.repaintAllWindows();
+    ApplicationManager.getApplication().invokeLater(IdeBackgroundUtil::repaintAllWindows);
     initialSettings = pluginSettingsModel.duplicate();
   }
 }
