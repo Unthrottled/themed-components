@@ -12,6 +12,9 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 )
 class Configurations : PersistentStateComponent<Configurations>, Cloneable {
   companion object {
+    const val DEFAULT_DELIMITER = "和"
+    const val DEFAULT_VALUE_DELIMITER = "="
+
     @JvmStatic
     val instance: Configurations
       get() = ServiceManager.getService(Configurations::class.java)
@@ -23,13 +26,22 @@ class Configurations : PersistentStateComponent<Configurations>, Cloneable {
         titleInactiveForegroundColor = instance.titleInactiveForegroundColor,
         isCustomColors = instance.isCustomColors,
         isThemedTitleBar = instance.isThemedTitleBar,
+        customColoring = getCustomColors()
       )
+
+    fun getCustomColors() = instance.customColoring.split(DEFAULT_DELIMITER)
+      .filter { it.contains(DEFAULT_VALUE_DELIMITER) }
+      .associate {
+        val colorKeyToColor = it.split(DEFAULT_VALUE_DELIMITER)
+        colorKeyToColor[0] to colorKeyToColor[1]
+      }.toMutableMap()
   }
 
   var isThemedTitleBar: Boolean = true
   var isCustomColors: Boolean = false
   var titleForegroundColor: String = ""
   var titleInactiveForegroundColor: String = ""
+  var customColoring: String = ""
   var version: String = "0.0.0"
   var userId: String = ""
 

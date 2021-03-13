@@ -17,16 +17,19 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll, DumbAware {
   private PluginSettingsModel pluginSettingsModel = Configurations.getInitialSettings();
-  private PluginSettingsModel initialSettings = Configurations.getInitialSettings();
+  private PluginSettingsModel initialSettings = pluginSettingsModel.duplicate();
   private JTabbedPane tabbedPane1;
   private JPanel rootPane;
   private JCheckBox themedTitleBarBox;
   private ColorPanel foregroundColorPanel;
   private ColorPanel inactiveForegroundColorPanel;
   private JCheckBox enableCustomColors;
+  private ColorPanel selectedRowBackgroundColor;
+  private ColorPanel activeSelectedColorPanel;
 
   private void createUIComponents() {
     var settings = Configurations.getInitialSettings();
@@ -44,6 +47,23 @@ public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll
       pluginSettingsModel.setTitleInactiveForegroundColor(
         ToolBox.toHex(Objects.requireNonNull(inactiveForegroundColorPanel.getSelectedColor()))
       ));
+
+    selectedRowBackgroundColor = new ColorPanel();
+    selectedRowBackgroundColor.repaint();
+    selectedRowBackgroundColor.addActionListener(e ->
+      pluginSettingsModel.getCustomColoring().put(
+        Constants.COMPLETION_SELECTION_INACTIVE,
+        ToolBox.toHex(Objects.requireNonNull(selectedRowBackgroundColor.getSelectedColor()))
+      ));
+
+    activeSelectedColorPanel = new ColorPanel();
+    activeSelectedColorPanel.repaint();
+    activeSelectedColorPanel.addActionListener(e ->
+      pluginSettingsModel.getCustomColoring().put(
+        Constants.COMPLETION_SELECTION_ACTIVE,
+        ToolBox.toHex(Objects.requireNonNull(activeSelectedColorPanel.getSelectedColor()))
+      ));
+
     initializeCustomCreateComponents(settings);
   }
 
@@ -56,6 +76,16 @@ public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll
       ToolBox.toColor(settings.getTitleInactiveForegroundColor())
         .orElse(JBColor.namedColor(Constants.TITLE_PANE_INACTIVE_PROP, JBColor.WHITE))
     );
+
+    selectedRowBackgroundColor.setSelectedColor(
+      ToolBox.toColor(settings.getCustomColoring().get(Constants.COMPLETION_SELECTION_INACTIVE))
+        .orElse(JBColor.namedColor(Constants.COMPLETION_SELECTION_INACTIVE, JBColor.WHITE))
+    );
+    activeSelectedColorPanel.setSelectedColor(
+      ToolBox.toColor(settings.getCustomColoring().get(Constants.COMPLETION_SELECTION_ACTIVE))
+        .orElse(JBColor.namedColor(Constants.COMPLETION_SELECTION_ACTIVE, JBColor.WHITE))
+    );
+
   }
 
   @Override
@@ -103,6 +133,12 @@ public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll
     Configurations.getInstance().setTitleInactiveForegroundColor(pluginSettingsModel.getTitleInactiveForegroundColor());
     Configurations.getInstance().setTitleForegroundColor(pluginSettingsModel.getTitleForegroundColor());
     Configurations.getInstance().setThemedTitleBar(pluginSettingsModel.isThemedTitleBar());
+    Configurations.getInstance().setCustomColoring(
+      pluginSettingsModel.getCustomColoring().entrySet()
+        .stream()
+        .map(pair -> pair.getKey() + Configurations.DEFAULT_VALUE_DELIMITER + pair.getValue())
+        .collect(Collectors.joining(Configurations.DEFAULT_DELIMITER))
+    );
 
     LookAndFeelInstaller.INSTANCE.installAllUIComponents();
     initialSettings = pluginSettingsModel.duplicate();

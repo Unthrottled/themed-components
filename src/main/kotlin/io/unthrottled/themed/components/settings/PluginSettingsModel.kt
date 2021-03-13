@@ -5,6 +5,7 @@ data class PluginSettingsModel(
   var titleInactiveForegroundColor: String,
   var isCustomColors: Boolean,
   var isThemedTitleBar: Boolean,
+  var customColoring: MutableMap<String, String>,
 ) {
-  fun duplicate(): PluginSettingsModel = copy()
+  fun duplicate(): PluginSettingsModel = copy(customColoring = HashMap(customColoring))
 }
