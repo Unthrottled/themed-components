@@ -13,8 +13,7 @@ val UPDATE_MESSAGE: String =
   """
       What's New?<br>
       <ul>
-      <li>Able to customize the title pane foreground color in MacOS and Windows 10.</li>
-      <li>2021 Build Support.</li>
+      <li>Able to customize the selected rows in the completion window.</li>
       </ul>
       <br>Please see the <a href="https://github.com/Unthrottled/themed-components/blob/master/changelog/CHANGELOG.md">Changelog</a> for more details.
       <br>

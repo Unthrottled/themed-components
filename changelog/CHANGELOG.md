@@ -2,6 +2,12 @@
 
 ---
 
+# 1.4.0
+
+- Added completion window popup color customizations.
+  - **Default Selection Row Background** - this is normally the color of the first row in the completion popup window.
+  - **Active Selection Row Background** - this is the color of the row in the completion popup window when you navigate each of the items in the window.
+
 # 1.3.0
 
 - Added the ability to customize the Title bar color in Windows 10 and MacOS!
