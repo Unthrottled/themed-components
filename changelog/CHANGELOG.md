@@ -2,6 +2,10 @@
 
 ---
 
+# 1.4.1
+
+- Fixed settings issue when attempting to update completion window colors
+
 # 1.4.0
 
 - Added completion window popup color customizations.

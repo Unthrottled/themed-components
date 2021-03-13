@@ -1,5 +1,7 @@
 package io.unthrottled.themed.components.settings.ui;
 
+import com.intellij.ide.actions.QuickChangeLookAndFeel;
+import com.intellij.ide.ui.LafManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.DumbAware;
@@ -16,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -141,6 +144,24 @@ public class SettingsUI implements SearchableConfigurable, Configurable.NoScroll
     );
 
     LookAndFeelInstaller.INSTANCE.installAllUIComponents();
+
+    var currentTheme = LafManager.getInstance().getCurrentLookAndFeel();
+    Arrays.stream(LafManager.getInstance().getInstalledLookAndFeels())
+      .filter(theme -> theme.equals(currentTheme))
+      .findAny()
+    .ifPresent(otherTheme -> {
+      QuickChangeLookAndFeel.switchLafAndUpdateUI(
+        LafManager.getInstance(),
+        otherTheme,
+        true
+      );
+      QuickChangeLookAndFeel.switchLafAndUpdateUI(
+        LafManager.getInstance(),
+        currentTheme,
+        true
+      );
+    });
+
     initialSettings = pluginSettingsModel.duplicate();
   }
 }
