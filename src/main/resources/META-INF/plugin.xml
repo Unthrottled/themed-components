@@ -9,6 +9,10 @@
     <description><![CDATA[
         <p>
             A various collection of configurable UI components that give your IDE that little extra something.
+          <ul>
+            <li>MacOS Frameless Window</li>
+            <li>Various look and feel color customizations</li>
+          </ul>
         </p>
         ]]></description>
 
@@ -34,7 +38,7 @@
 
     <actions>
         <action id="io.unthrottled.themed.components.actions.ThemedTitleBarAction"
-                class="io.unthrottled.themed.components.actions.ThemedTitleBarAction" text="Themed Title Bar"
+                class="io.unthrottled.themed.components.actions.ThemedTitleBarAction" text="Frameless Window"
                 icon="/icons/themedTitleBar.svg"
                 description="Makes the MacOS title bar the same color as your selected theme."/>
     </actions>

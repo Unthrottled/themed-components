@@ -4,6 +4,8 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.wm.impl.IdeBackgroundUtil
 import io.unthrottled.themed.components.settings.Configurations
 import io.unthrottled.themed.components.ui.TitlePaneUI
+import io.unthrottled.themed.components.util.Constants.COMPLETION_SELECTION_ACTIVE
+import io.unthrottled.themed.components.util.Constants.COMPLETION_SELECTION_INACTIVE
 import io.unthrottled.themed.components.util.Constants.TITLE_PANE_INACTIVE_PROP
 import io.unthrottled.themed.components.util.Constants.TITLE_PANE_PROP
 import io.unthrottled.themed.components.util.toColor
@@ -34,6 +36,20 @@ object LookAndFeelInstaller {
           lookAndFeelDefaults.remove(TITLE_PANE_INACTIVE_PROP)
           lookAndFeelDefaults[TITLE_PANE_INACTIVE_PROP] = it
         }
+
+      val colors = Configurations.getCustomColors()
+      listOf(
+        COMPLETION_SELECTION_INACTIVE,
+        COMPLETION_SELECTION_ACTIVE,
+      )
+        .filter { colors.containsKey(it) }
+        .forEach {
+          colors[it]?.toColor()?.ifPresent { color ->
+            lookAndFeelDefaults.remove(it)
+            lookAndFeelDefaults[it] = color
+          }
+        }
+
       IdeBackgroundUtil.repaintAllWindows()
     }
   }
