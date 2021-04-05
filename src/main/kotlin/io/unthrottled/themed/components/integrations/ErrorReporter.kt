@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.intellij.ide.IdeBundle
 import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.ide.ui.LafManager
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ApplicationNamesInfo
 import com.intellij.openapi.application.ex.ApplicationInfoEx
 import com.intellij.openapi.application.impl.ApplicationInfoImpl
@@ -15,12 +16,12 @@ import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.openapi.util.registry.Registry
 import com.intellij.util.Consumer
 import com.intellij.util.text.DateFormatUtil
-import io.sentry.DefaultSentryClientFactory
-import io.sentry.SentryClient
-import io.sentry.dsn.Dsn
-import io.sentry.event.Event
-import io.sentry.event.EventBuilder
-import io.sentry.event.UserBuilder
+import io.sentry.Sentry
+import io.sentry.SentryEvent
+import io.sentry.SentryLevel
+import io.sentry.SentryOptions
+import io.sentry.protocol.Message
+import io.sentry.protocol.User
 import io.unthrottled.themed.components.settings.Configurations
 import java.awt.Component
 import java.lang.management.ManagementFactory
@@ -33,16 +34,21 @@ class ErrorReporter : ErrorReportSubmitter() {
   override fun getReportActionText(): String = "Report Anonymously"
 
   companion object {
-    private val sentryClient: SentryClient =
-      DefaultSentryClientFactory().createSentryClient(
-        Dsn(
+    init {
+      Sentry.init { options: SentryOptions ->
+        options.dsn =
           RestClient.performGet(
             "https://jetbrains.assets.unthrottled.io/themed-components/sentry-dsn.txt"
           )
             .map { it.trim() }
             .orElse("https://59b606f574864d25b36b8bd254a460b5@o403546.ingest.sentry.io/5546039?maxmessagelength=50000")
+        Sentry.setUser(
+          User().apply {
+            this.id = Configurations.instance.userId
+          }
         )
-      )
+      }
+    }
   }
 
   override fun submit(
@@ -51,52 +57,53 @@ class ErrorReporter : ErrorReportSubmitter() {
     parentComponent: Component,
     consumer: Consumer<in SubmittedReportInfo>
   ): Boolean {
-    return try {
-      events.forEach {
-        sentryClient.context.user =
-          UserBuilder().setId(
-            Configurations.instance
-              .let { config -> config.userId }
-          ).build()
-        sentryClient.sendEvent(
-          addSystemInfo(
-            EventBuilder()
-              .withLevel(Event.Level.ERROR)
-              .withServerName(getAppName().second)
-              .withExtra("Message", it.message)
-              .withExtra("Additional Info", additionalInfo ?: "None")
-          ).withMessage(it.throwableText)
-        )
-        sentryClient.clearContext()
+    ApplicationManager.getApplication()
+      .executeOnPooledThread {
+        events.forEach {
+          Sentry.captureEvent(
+            addSystemInfo(
+              SentryEvent()
+                .apply {
+                  this.level = SentryLevel.ERROR
+                  this.serverName = getAppName().second
+                  this.setExtra("Additional Info", additionalInfo ?: "None")
+                }
+            ).apply {
+              this.message = Message().apply {
+                this.message = it.throwableText
+              }
+            }
+          )
+        }
+        consumer.consume(SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.NEW_ISSUE))
       }
-      true
-    } catch (e: Throwable) {
-      false
-    }
+    return true
   }
 
-  private fun addSystemInfo(event: EventBuilder): EventBuilder {
+  private fun addSystemInfo(event: SentryEvent): SentryEvent {
     val pair = getAppName()
     val appInfo = pair.first
     val appName = pair.second
     val properties = System.getProperties()
-    return event
-      .withExtra("App Name", appName)
-      .withExtra("Build Info", getBuildInfo(appInfo))
-      .withExtra("JRE", getJRE(properties))
-      .withExtra("VM", getVM(properties))
-      .withExtra("System Info", SystemInfo.getOsNameAndVersion())
-      .withExtra("GC", getGC())
-      .withExtra("Memory", Runtime.getRuntime().maxMemory() / FileUtilRt.MEGABYTE)
-      .withExtra("Cores", Runtime.getRuntime().availableProcessors())
-      .withExtra("Registry", getRegistry())
-      .withExtra("Non-Bundled Plugins", getNonBundledPlugins())
-      .withExtra("Current LAF", LafManager.getInstance().currentLookAndFeel?.name)
-      .withExtra("Themed Components Config", Configurations.instance.let { Gson().toJson(it) })
+    return event.apply {
+      setExtra("App Name", appName)
+      setExtra("Build Info", getBuildInfo(appInfo))
+      setExtra("JRE", getJRE(properties))
+      setExtra("VM", getVM(properties))
+      setExtra("System Info", SystemInfo.getOsNameAndVersion())
+      setExtra("GC", getGC())
+      setExtra("Memory", Runtime.getRuntime().maxMemory() / FileUtilRt.MEGABYTE)
+      setExtra("Cores", Runtime.getRuntime().availableProcessors())
+      setExtra("Registry", getRegistry())
+      setExtra("Non-Bundled Plugins", getNonBundledPlugins())
+      setExtra("Current LAF", LafManager.getInstance().currentLookAndFeel?.name)
+      setExtra("Themed Components Config", Configurations.instance.let { Gson().toJson(it) })
+    }
   }
 
   private fun getJRE(properties: Properties): String? {
-    val javaVersion = properties.getProperty("java.runtime.version", properties.getProperty("java.version", "unknown"))
+    val javaVersion =
+      properties.getProperty("java.runtime.version", properties.getProperty("java.version", "unknown"))
     val arch = properties.getProperty("os.arch", "")
     return IdeBundle.message("about.box.jre", javaVersion, arch)
   }
