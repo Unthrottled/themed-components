@@ -22,7 +22,7 @@ jobs:
       run: chmod +x gradlew
     - name: Perform quality check
       run: ./gradlew clean check buildPlugin
-    - uses: ChrisCarini/intellij-platform-plugin-verifier-action@v1.0.5
+    - uses: ChrisCarini/intellij-platform-plugin-verifier-action@v1.0.6
       with:
         ide-versions: |
           ideaIC:2020.1.2
