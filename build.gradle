@@ -1,5 +1,5 @@
 plugins {
-  id 'org.jetbrains.intellij' version '0.7.3'
+  id 'org.jetbrains.intellij' version '1.0'
   id 'org.jetbrains.kotlin.jvm' version "1.5.10"
   id "org.jlleitschuh.gradle.ktlint" version "10.0.0"
 }
@@ -24,8 +24,8 @@ configurations {
 }
 
 intellij {
-  version 'LATEST-EAP-SNAPSHOT'
-  type 'IU'
+  version.set('LATEST-EAP-SNAPSHOT')
+  type.set('IC')
 }
 compileKotlin {
   kotlinOptions.jvmTarget = "1.8"
@@ -33,8 +33,8 @@ compileKotlin {
 compileTestKotlin {
   kotlinOptions.jvmTarget = "1.8"
 }
-patchPluginXml {
-  changeNotes file("$projectDir/changelog/CHANGELOG.html").text
-  sinceBuild sinceBuildVersion
-  untilBuild untilBuildVersion
+tasks.patchPluginXml {
+  changeNotes.set(file("$projectDir/changelog/CHANGELOG.html").text)
+  sinceBuild.set(sinceBuildVersion)
+  untilBuild.set(untilBuildVersion)
 }
