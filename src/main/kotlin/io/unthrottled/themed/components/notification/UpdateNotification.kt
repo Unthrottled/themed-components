@@ -14,6 +14,7 @@ val UPDATE_MESSAGE: String =
       What's New?<br>
       <ul>
       <li>Able to customize the selected rows in the completion window.</li>
+      <li>2021.2 Build Support</li>
       </ul>
       <br>Please see the <a href="https://github.com/Unthrottled/themed-components/blob/master/changelog/CHANGELOG.md">Changelog</a> for more details.
       <br>

@@ -2,6 +2,10 @@
 
 ---
 
+# 1.4.2
+
+- 2021.2 Build Support
+
 # 1.4.1
 
 - Fixed settings issue when attempting to update completion window colors
