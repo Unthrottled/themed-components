@@ -4,7 +4,7 @@
     <version>@version@</version>
     <vendor email="alexsimons9999@gmail.com" url="https://github.com/Unthrottled">Unthrottled</vendor>
 
-    <idea-version since-build="201.6668.113"/>
+    <idea-version since-build="203.7148.57"/>
 
     <description><![CDATA[
         <p>
@@ -23,6 +23,7 @@
                                  instance="io.unthrottled.themed.components.settings.ui.SettingsUI"
                                  groupId="appearance"/>
         <applicationService serviceImplementation="io.unthrottled.themed.components.settings.Configurations"/>
+        <notificationGroup displayType="BALLOON" id="Themed Components Updates" isLogByDefault="true" />
         <errorHandler id="9782e40c-e6d2-488f-8669-71f5cca6695e" implementation="io.unthrottled.themed.components.integrations.ErrorReporter"/>
     </extensions>
 
