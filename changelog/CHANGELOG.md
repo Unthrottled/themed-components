@@ -2,6 +2,10 @@
 
 ---
 
+# 1.4.3
+
+- 2021.3 Build Support
+
 # 1.4.2
 
 - 2021.2 Build Support
