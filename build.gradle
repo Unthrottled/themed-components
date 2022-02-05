@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'io.unthrottled'
-version '1.4.3'
+version '1.5.0'
 
 repositories {
   mavenCentral()
@@ -24,14 +24,14 @@ configurations {
 }
 
 intellij {
-  version.set('2021.1.3')
+  version.set('LATEST-EAP-SNAPSHOT')
   type.set('IU')
 }
 compileKotlin {
-  kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.jvmTarget = "11"
 }
 compileTestKotlin {
-  kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.jvmTarget = "11"
 }
 tasks.patchPluginXml {
   changeNotes.set(file("$projectDir/changelog/CHANGELOG.html").text)

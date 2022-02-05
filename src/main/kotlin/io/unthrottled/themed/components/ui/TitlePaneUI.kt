@@ -3,12 +3,12 @@ package io.unthrottled.themed.components.ui
 import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.laf.UIThemeBasedLookAndFeelInfo
 import com.intellij.ide.ui.laf.darcula.ui.DarculaRootPaneUI
-import com.intellij.openapi.util.SystemInfo.isJavaVersionAtLeast
 import com.intellij.openapi.util.SystemInfo.isLinux
 import com.intellij.openapi.util.SystemInfo.isMac
 import com.intellij.openapi.wm.IdeFrame
 import com.intellij.ui.JBColor.GRAY
 import com.intellij.ui.JBColor.namedColor
+import com.intellij.util.lang.JavaVersion
 import com.intellij.util.ui.GraphicsUtil
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.JBUI.insets
@@ -189,7 +189,7 @@ class TitlePaneUI : DarculaRootPaneUI() {
     component: JComponent?,
     handleIsTransparent: (Boolean) -> () -> Unit
   ): ((Disposer) -> Unit) -> Unit {
-    return if (!isJavaVersionAtLeast(11)) {
+    return if (JavaVersion.current().feature < 11) {
       { resolve ->
         resolve(handleIsTransparent(true))
       }
@@ -209,9 +209,9 @@ class TitlePaneUI : DarculaRootPaneUI() {
       is JDialog -> window.title
       is JFrame -> window.title
       else -> LOL_NOPE
-    }.ifEmpty {
-      " "
-    }
+    }.toOptional()
+      .filter { it.isNotBlank() }
+      .orElse(" ")
 }
 
 private fun isInFullScreen(window: Window?): Boolean {
