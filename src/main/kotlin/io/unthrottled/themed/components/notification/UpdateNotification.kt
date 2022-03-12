@@ -3,7 +3,6 @@ package io.unthrottled.themed.components.notification
 import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationListener
 import com.intellij.notification.NotificationType
-import com.intellij.notification.SingletonNotificationManager
 import com.intellij.openapi.project.Project
 import org.intellij.lang.annotations.Language
 
@@ -21,26 +20,25 @@ val UPDATE_MESSAGE: String =
 
 object UpdateNotification {
 
-  private val notificationManager by lazy {
-    SingletonNotificationManager(
-      NotificationGroupManager.getInstance().getNotificationGroup("Themed Components Updates"),
-      NotificationType.INFORMATION
-    )
-  }
+  private val notificationGroup =
+    NotificationGroupManager.getInstance()
+      .getNotificationGroup("Themed Components Updates")
 
   fun display(project: Project, currentVersion: String) {
-    notificationManager.notify(
-      "Themed Components updated to v$currentVersion",
+    val notification = notificationGroup.createNotification(
       UPDATE_MESSAGE,
-      project,
-      NotificationListener.URL_OPENING_LISTENER
-    )
+      NotificationType.INFORMATION,
+    ).setTitle("Themed Components updated to v$currentVersion")
+      .setListener(NotificationListener.URL_OPENING_LISTENER)
+    notification.notify(project)
   }
 
   fun displayRestartMessage() {
-    notificationManager.notify(
+    notificationGroup.createNotification(
+      "In order for the change to take effect, please restart your IDE. Thanks! ~",
+      NotificationType.INFORMATION,
+    ).setTitle(
       "Please restart your IDE",
-      "In order for the change to take effect, please restart your IDE. Thanks! ~"
-    )
+    ).notify(null)
   }
 }

@@ -24,7 +24,7 @@ configurations {
 }
 
 intellij {
-  version.set('LATEST-EAP-SNAPSHOT')
+  version.set('2021.1')
   type.set('IU')
 }
 compileKotlin {
