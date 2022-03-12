@@ -2,6 +2,10 @@
 
 ---
 
+# 1.5.1
+
+- Fixed 2022.1 compatability problems.
+
 # 1.5.0
 
 - 2022.1 Build Support
