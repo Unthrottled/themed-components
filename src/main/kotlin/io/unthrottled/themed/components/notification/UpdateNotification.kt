@@ -11,7 +11,8 @@ val UPDATE_MESSAGE: String =
   """
       What's New?<br>
       <ul>
-      <li>2021.3 Build Support</li>
+      <li>2022.1 Build Support</li>
+      <li>Disabling Themed Titlebar for MacOS Users on 2022, as it has native support now.</li>
       </ul>
       <br>Please see the <a href="https://github.com/Unthrottled/themed-components/blob/master/changelog/CHANGELOG.md">Changelog</a> for more details.
       <br>

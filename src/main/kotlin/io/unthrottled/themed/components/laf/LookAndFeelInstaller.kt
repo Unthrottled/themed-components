@@ -2,6 +2,7 @@ package io.unthrottled.themed.components.laf
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.wm.impl.IdeBackgroundUtil
+import io.unthrottled.themed.components.legacy.LegacyMigration
 import io.unthrottled.themed.components.settings.Configurations
 import io.unthrottled.themed.components.ui.TitlePaneUI
 import io.unthrottled.themed.components.util.Constants.COMPLETION_SELECTION_ACTIVE
@@ -13,6 +14,7 @@ import javax.swing.UIManager
 
 object LookAndFeelInstaller {
   init {
+    LegacyMigration.migrateIfNecessary()
     installAllUIComponents()
   }
 
