@@ -20,12 +20,42 @@ jobs:
         distribution: 'zulu'
     - name: Grant execute permission for scripts
       run: chmod +x gradlew
+
+    # Set environment variables
+    - name: Export Properties
+      id: properties
+      shell: bash
+      run: |
+        PROPERTIES="$(./gradlew properties --console=plain -q)"
+        VERSION="$(echo "$PROPERTIES" | grep "^version:" | cut -f2- -d ' ')"
+        NAME="$(echo "$PROPERTIES" | grep "^pluginName:" | cut -f2- -d ' ')"
+        
+        echo "::set-output name=version::$VERSION"
+        echo "::set-output name=name::$NAME"
+        echo "::set-output name=pluginVerifierHomeDir::~/.pluginVerifier"
+        
+        ./gradlew listProductsReleases # prepare list of IDEs for Plugin Verifier
+
+
     - name: Perform quality check
-      run: ./gradlew clean check buildPlugin
-    - uses: ChrisCarini/intellij-platform-plugin-verifier-action@v1.2.1
+      run: ./gradlew clean check
+
+      # Cache Plugin Verifier IDEs
+    - name: Setup Plugin Verifier IDEs Cache
+      uses: actions/cache@v3
       with:
-        ide-versions: |
-          ideaIC:2020.3.1
-          ideaIU:2020.3.1
-          ideaIC:LATEST-EAP-SNAPSHOT
-          ideaIU:LATEST-EAP-SNAPSHOT
+        path: ${{ steps.properties.outputs.pluginVerifierHomeDir }}/ides
+        key: plugin-verifier-${{ hashFiles('build/listProductsReleases.txt') }}
+
+      # Run Verify Plugin task and IntelliJ Plugin Verifier tool
+    - name: Run Plugin Verification tasks
+      run: ./gradlew runPluginVerifier -Pplugin.verifier.home.dir=${{ steps.properties.outputs.pluginVerifierHomeDir }}
+
+      # Collect Plugin Verifier Result
+    - name: Collect Plugin Verifier Result
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: pluginVerifier-result
+        path: ${{ github.workspace }}/build/reports/pluginVerifier
+
