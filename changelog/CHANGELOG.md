@@ -2,6 +2,11 @@
 
 ---
 
+# 1.7.0
+
+- 2022.3 Build Support
+
+
 # 1.6.0
 
 - Migrating MacOS users on 2022.2 builds to not use the provided themed title bar, as it has native support now.
