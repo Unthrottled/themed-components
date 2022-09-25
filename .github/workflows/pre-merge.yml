@@ -28,10 +28,8 @@ jobs:
       run: |
         PROPERTIES="$(./gradlew properties --console=plain -q)"
         VERSION="$(echo "$PROPERTIES" | grep "^version:" | cut -f2- -d ' ')"
-        NAME="$(echo "$PROPERTIES" | grep "^pluginName:" | cut -f2- -d ' ')"
         
         echo "::set-output name=version::$VERSION"
-        echo "::set-output name=name::$NAME"
         echo "::set-output name=pluginVerifierHomeDir::~/.pluginVerifier"
         
         ./gradlew listProductsReleases # prepare list of IDEs for Plugin Verifier
