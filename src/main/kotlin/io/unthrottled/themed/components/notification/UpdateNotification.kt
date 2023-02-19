@@ -28,7 +28,7 @@ object UpdateNotification {
   fun display(project: Project, currentVersion: String) {
     val notification = notificationGroup.createNotification(
       UPDATE_MESSAGE,
-      NotificationType.INFORMATION,
+      NotificationType.INFORMATION
     ).setTitle("Themed Components updated to v$currentVersion")
       .setListener(NotificationListener.URL_OPENING_LISTENER)
     notification.notify(project)
@@ -37,9 +37,9 @@ object UpdateNotification {
   fun displayRestartMessage() {
     notificationGroup.createNotification(
       "In order for the change to take effect, please restart your IDE. Thanks! ~",
-      NotificationType.INFORMATION,
+      NotificationType.INFORMATION
     ).setTitle(
-      "Please restart your IDE",
+      "Please restart your IDE"
     ).notify(null)
   }
 }

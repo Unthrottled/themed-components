@@ -83,8 +83,11 @@ class TitlePaneUI : DarculaRootPaneUI() {
       .filter { isMac || isLinux }
       .ifPresent {
         val isDark =
-          if (it is UIThemeBasedLookAndFeelInfo) it.theme.isDark
-          else StartupUiUtil.isUnderDarcula()
+          if (it is UIThemeBasedLookAndFeelInfo) {
+            it.theme.isDark
+          } else {
+            StartupUiUtil.isUnderDarcula()
+          }
         c?.putClientProperty(WINDOW_DARK_APPEARANCE, isDark)
         val rootPane = c as? JRootPane
         attemptTransparentTitle(c) { shouldBeTransparent ->
@@ -139,8 +142,11 @@ class TitlePaneUI : DarculaRootPaneUI() {
           graphics.fill(headerRectangle)
           graphics.font = UIManager.getFont("Panel.font")
           val color: Color =
-            if (window!!.isActive) namedColor(Constants.TITLE_PANE_PROP, Color.black)
-            else namedColor(Constants.TITLE_PANE_INACTIVE_PROP, GRAY)
+            if (window!!.isActive) {
+              namedColor(Constants.TITLE_PANE_PROP, Color.black)
+            } else {
+              namedColor(Constants.TITLE_PANE_INACTIVE_PROP, GRAY)
+            }
           graphics.color = color
           val controlButtonsWidth = 70
           val windowTitle: String = getTitle(window)
