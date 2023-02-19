@@ -29,6 +29,7 @@ object ToolBox {
   @JvmStatic
   fun toColor(colorString: String?): Optional<Color> = colorString.toOptional()
     .flatMap { it.toColor() }
+
   @JvmStatic
   fun toHex(color: Color): String = color.toHexString()
 }

@@ -42,7 +42,7 @@ object LookAndFeelInstaller {
       val colors = Configurations.getCustomColors()
       listOf(
         COMPLETION_SELECTION_INACTIVE,
-        COMPLETION_SELECTION_ACTIVE,
+        COMPLETION_SELECTION_ACTIVE
       )
         .filter { colors.containsKey(it) }
         .forEach {
